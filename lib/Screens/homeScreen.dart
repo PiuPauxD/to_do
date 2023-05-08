@@ -32,9 +32,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Icon(
-                            Icons.circle_outlined,
-                            size: 30,
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.circle_outlined),
+                            iconSize: 28,
                             color: Color.fromARGB(255, 246, 241, 241),
                           ),
                           Padding(
@@ -52,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               Text(
-                                'task Description',
+                                'Task Description',
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Color.fromARGB(255, 246, 241, 241),
@@ -85,13 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 80,
       width: double.maxFinite,
       padding: const EdgeInsets.symmetric(horizontal: 15),
-      decoration: const BoxDecoration(
-        color: Color.fromARGB(255, 20, 108, 148),
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(15),
-          bottomRight: Radius.circular(15),
-        ),
-      ),
+      color: Color.fromARGB(255, 20, 108, 148),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
