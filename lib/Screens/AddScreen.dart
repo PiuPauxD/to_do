@@ -9,6 +9,8 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
+  final double ScreenWidth = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,10 +31,13 @@ class _AddScreenState extends State<AddScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Icon(
-                        Icons.arrow_back_outlined,
-                        color: Color.fromARGB(255, 246, 241, 241),
-                        size: 42,
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.arrow_back_outlined,
+                          color: Color.fromARGB(255, 246, 241, 241),
+                          size: 42,
+                        ),
                       ),
                       const Padding(
                         padding: EdgeInsets.only(left: 10),
@@ -52,6 +57,9 @@ class _AddScreenState extends State<AddScreen> {
                 ),
                 Row(
                   children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                    ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -68,8 +76,8 @@ class _AddScreenState extends State<AddScreen> {
                           children: [
                             Container(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              width: 250,
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              width: 200,
                               child: TextField(
                                 decoration: InputDecoration(
                                   labelText: 'Enter task name',
@@ -79,11 +87,14 @@ class _AddScreenState extends State<AddScreen> {
                                 ),
                               ),
                             ),
-                            Icon(
-                              Icons.mic_outlined,
-                              size: 40,
-                              color: Color.fromARGB(255, 246, 241, 241),
-                            ),
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.mic_outlined,
+                                size: 35,
+                                color: Color.fromARGB(255, 246, 241, 241),
+                              ),
+                            )
                           ],
                         ),
                         Row(
@@ -91,8 +102,8 @@ class _AddScreenState extends State<AddScreen> {
                           children: [
                             Container(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              width: 250,
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              width: 200,
                               child: TextField(
                                 decoration: InputDecoration(
                                   labelText: 'Enter task description',
@@ -102,10 +113,13 @@ class _AddScreenState extends State<AddScreen> {
                                 ),
                               ),
                             ),
-                            Icon(
-                              Icons.close_outlined,
-                              size: 40,
-                              color: Color.fromARGB(255, 246, 241, 241),
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.close_outlined,
+                                size: 35,
+                                color: Color.fromARGB(255, 246, 241, 241),
+                              ),
                             ),
                           ],
                         ),
@@ -115,7 +129,7 @@ class _AddScreenState extends State<AddScreen> {
                 ),
                 Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -127,55 +141,70 @@ class _AddScreenState extends State<AddScreen> {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
+                      SizedBox(
+                        width: ScreenWidth,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            width: 250,
+                            width: 200,
                             child: TextField(
                               decoration: InputDecoration(
-                                labelText: 'Enter the date of the task',
+                                labelText: 'Enter the date',
                               ),
                               style: TextStyle(
                                 fontSize: 16,
                               ),
                             ),
                           ),
-                          Icon(
-                            Icons.calendar_month_outlined,
-                            size: 40,
-                            color: Color.fromARGB(255, 246, 241, 241),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.calendar_month_outlined,
+                              size: 35,
+                              color: Color.fromARGB(255, 246, 241, 241),
+                            ),
                           ),
-                          Icon(
-                            Icons.close_outlined,
-                            size: 40,
-                            color: Color.fromARGB(255, 246, 241, 241),
-                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.close_outlined,
+                              size: 35,
+                              color: Color.fromARGB(255, 246, 241, 241),
+                            ),
+                          )
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            width: 250,
+                            width: 200,
                             child: TextField(
                               decoration: InputDecoration(
-                                labelText: 'Enter the end time of the task',
+                                labelText: 'Enter the end time',
                               ),
                               style: TextStyle(
                                 fontSize: 16,
                               ),
                             ),
                           ),
-                          Icon(
-                            Icons.watch_later_outlined,
-                            size: 40,
-                            color: Color.fromARGB(255, 246, 241, 241),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.watch_later_outlined,
+                              size: 35,
+                              color: Color.fromARGB(255, 246, 241, 241),
+                            ),
                           ),
-                          Icon(
-                            Icons.close_outlined,
-                            size: 40,
-                            color: Color.fromARGB(255, 246, 241, 241),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.close_outlined,
+                              size: 35,
+                              color: Color.fromARGB(255, 246, 241, 241),
+                            ),
                           ),
                         ],
                       ),
