@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:to_do/Screens/AddScreen.dart';
+import 'package:to_do/Screens/CalendarScreen.dart';
 import 'package:to_do/Screens/homeScreen.dart';
 
 class NavBar extends StatefulWidget {
@@ -14,7 +15,7 @@ class _NavBarState extends State<NavBar> {
   List Screen = [
     AddScreen(),
     HomeScreen(),
-    HomeScreen(),
+    CalendarScreen(),
   ];
 
   int CurrentIndex = 1;

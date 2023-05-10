@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:to_do/Screens/NavBar.dart';
 import 'package:to_do/Screens/homeScreen.dart';
 
 class AddScreen extends StatefulWidget {
@@ -9,7 +10,7 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
-  final double ScreenWidth = 0;
+  static double ScreenWidth = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,14 @@ class _AddScreenState extends State<AddScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: ((context) => NavBar()),
+                            ),
+                          );
+                        },
                         icon: Icon(
                           Icons.arrow_back_outlined,
                           color: Color.fromARGB(255, 246, 241, 241),

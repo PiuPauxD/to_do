@@ -8,6 +8,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String? selectedItem;
+  String? selectedItemi;
+
+  final List<String> _item = [
+    'Day',
+    'Week',
+    'Month',
+    'Year',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,19 +110,54 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: EdgeInsets.only(left: 10),
           ),
           Container(
-            child: Text(
-              'Today',
-              style: TextStyle(
-                color: Color.fromARGB(255, 246, 241, 241),
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          Icon(
-            Icons.arrow_drop_down,
-            size: 32,
-            color: Color.fromARGB(255, 246, 241, 241),
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
+            width: 200,
+            child: DropdownButton<String>(
+                value: selectedItem,
+                items: _item
+                    .map((e) => DropdownMenuItem(
+                          child: Container(
+                            width: 60,
+                            child: Text(
+                              e,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Color.fromARGB(255, 246, 241, 241),
+                              ),
+                            ),
+                          ),
+                          value: e,
+                        ))
+                    .toList(),
+                selectedItemBuilder: ((BuildContext context) => _item
+                    .map(
+                      (e) => Text(
+                        e,
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 246, 241, 241),
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    )
+                    .toList()),
+                dropdownColor: Color.fromARGB(255, 20, 108, 148),
+                isExpanded: true,
+                hint: Text(
+                  'Today',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 246, 241, 241),
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                underline: Container(),
+                onChanged: ((value) {
+                  setState(() {
+                    selectedItem = value!;
+                  });
+                })),
           ),
         ],
       ),
