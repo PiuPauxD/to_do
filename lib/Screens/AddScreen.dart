@@ -15,46 +15,71 @@ class _AddScreenState extends State<AddScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 142, 200, 241),
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 20, 108, 148),
-        toolbarHeight: 80,
-        elevation: 0,
-        leading: GestureDetector(
-          onTap: () {
-            setState(() {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: ((context) => NavBar()),
-                ),
-              );
-            });
-          },
-          child: Icon(
-            Icons.arrow_back_outlined,
-            color: Color.fromARGB(255, 246, 241, 241),
-            size: 42,
-          ),
-        ),
-        title: const Text(
-          'Add task',
-          style: TextStyle(
-            color: Color.fromARGB(255, 246, 241, 241),
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
       body: SafeArea(
         child: Stack(
           alignment: AlignmentDirectional.center,
           children: [
-            MainContainer(),
+            backgroundContainer(context),
+            Positioned(
+              top: 120,
+              child: MainContainer(),
+            ),
           ],
         ),
       ),
     );
   }
+}
+
+Column backgroundContainer(BuildContext context) {
+  return Column(
+    children: [
+      Container(
+        width: double.infinity,
+        height: 82,
+        decoration: const BoxDecoration(
+          color: Color.fromARGB(255, 20, 108, 148),
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const NavBar()));
+                    },
+                    child: const Icon(
+                      Icons.arrow_back_outlined,
+                      size: 42,
+                      color: const Color.fromARGB(255, 246, 241, 241),
+                    ),
+                  ),
+                  const Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                  ),
+                  const Text(
+                    'Add task',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      color: Color.fromARGB(255, 246, 241, 241),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    ],
+  );
 }
 
 Container MainContainer() {
@@ -96,13 +121,13 @@ GestureDetector Save() {
   return GestureDetector(
     onTap: () {},
     child: Container(
-      width: 80,
-      height: 80,
-      alignment: Alignment.bottomRight,
+      width: 100,
+      height: 60,
+      alignment: Alignment.center,
       child: Icon(
-        Icons.task_alt_outlined,
-        size: 68,
         color: Color.fromARGB(255, 246, 241, 241),
+        Icons.task_alt_outlined,
+        size: 54,
       ),
     ),
   );
