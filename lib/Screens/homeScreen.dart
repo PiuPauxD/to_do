@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:to_do/data/To_DoTile.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,6 +12,8 @@ class _HomeScreenState extends State<HomeScreen> {
   String? selectedItem;
   String? selectedItemi;
 
+  DateTime date = DateTime.now();
+
   final List<String> _item = [
     'Day',
     'Week',
@@ -18,105 +21,57 @@ class _HomeScreenState extends State<HomeScreen> {
     'Year',
   ];
 
+  // list tasks
+  List ToDoList = [
+    ['make tutorial', 'hello', false],
+    ['make tutorial', 'holla', false],
+  ];
+
+  // checkBox function
+  void CheckBoxChanged(bool? value, int index) {
+    setState(() {
+      ToDoList[index][2] = !ToDoList[index][2];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 142, 200, 241),
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: _head(),
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return Container(
-                    height: 100,
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 25, 167, 206),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.circle_outlined),
-                            iconSize: 28,
-                            color: Color.fromARGB(255, 246, 241, 241),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 15),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Text(
-                                'Task name',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Color.fromARGB(255, 246, 241, 241),
-                                ),
-                              ),
-                              Text(
-                                'Task Description',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Color.fromARGB(255, 246, 241, 241),
-                                ),
-                              ),
-                              Text(
-                                '05.05.2023',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Color.fromARGB(255, 246, 241, 241),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 20, 108, 148),
+        toolbarHeight: 80,
+        elevation: 0,
+        leading: const Icon(
+          Icons.task_alt_sharp,
+          color: Color.fromARGB(255, 246, 241, 241),
+          size: 42,
         ),
-      ),
-    );
-  }
-
-  Widget _head() {
-    return Container(
-      height: 80,
-      width: double.maxFinite,
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      color: Color.fromARGB(255, 20, 108, 148),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Icon(
-            Icons.task_alt_sharp,
+        title: Text(
+          'To-Do',
+          style: TextStyle(
             color: Color.fromARGB(255, 246, 241, 241),
-            size: 42,
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
           ),
+        ),
+        actions: [
           const Padding(
             padding: EdgeInsets.only(left: 10),
           ),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
-            width: 200,
+            width: 130,
             child: DropdownButton<String>(
+                iconEnabledColor: Color.fromARGB(255, 246, 241, 241),
+                iconSize: 30,
                 value: selectedItem,
                 items: _item
                     .map((e) => DropdownMenuItem(
                           child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                             width: 60,
                             child: Text(
                               e,
@@ -160,6 +115,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 })),
           ),
         ],
+      ),
+      body: ListView.builder(
+        itemCount: ToDoList.length,
+        itemBuilder: (context, index) {
+          return To_DoTile(
+            TaskName: ToDoList[index][0],
+            TaskDescrip: ToDoList[index][1],
+            Date: 'Date: ${date.day} / ${date.month} / ${date.year}',
+            TaskCompleted: ToDoList[index][2],
+            onChanged: (value) => CheckBoxChanged(value, index),
+          );
+        },
       ),
     );
   }

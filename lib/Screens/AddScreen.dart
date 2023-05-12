@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:to_do/Screens/NavBar.dart';
-import 'package:to_do/Screens/homeScreen.dart';
 
 class AddScreen extends StatefulWidget {
   const AddScreen({super.key});
@@ -10,234 +9,208 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
-  static double ScreenWidth = 0;
+  DateTime date = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 142, 200, 241),
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 20, 108, 148),
+        toolbarHeight: 80,
+        elevation: 0,
+        leading: GestureDetector(
+          onTap: () {
+            setState(() {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: ((context) => NavBar()),
+                ),
+              );
+            });
+          },
+          child: Icon(
+            Icons.arrow_back_outlined,
+            color: Color.fromARGB(255, 246, 241, 241),
+            size: 42,
+          ),
+        ),
+        title: const Text(
+          'Add task',
+          style: TextStyle(
+            color: Color.fromARGB(255, 246, 241, 241),
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Stack(
-          alignment: Alignment.topLeft,
+          alignment: AlignmentDirectional.center,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  height: 80,
-                  width: double.maxFinite,
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  color: Color.fromARGB(255, 20, 108, 148),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: ((context) => NavBar()),
-                            ),
-                          );
-                        },
-                        icon: Icon(
-                          Icons.arrow_back_outlined,
-                          color: Color.fromARGB(255, 246, 241, 241),
-                          size: 42,
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 10),
-                      ),
-                      Container(
-                        child: Text(
-                          'Add task',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 246, 241, 241),
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Task name:',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 246, 241, 241),
-                            fontSize: 24,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              width: 200,
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  labelText: 'Enter task name',
-                                ),
-                                style: TextStyle(
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.mic_outlined,
-                                size: 35,
-                                color: Color.fromARGB(255, 246, 241, 241),
-                              ),
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              width: 200,
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  labelText: 'Enter task description',
-                                ),
-                                style: TextStyle(
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.close_outlined,
-                                size: 35,
-                                color: Color.fromARGB(255, 246, 241, 241),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Date:',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 246, 241, 241),
-                          fontSize: 24,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      SizedBox(
-                        width: ScreenWidth,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            width: 200,
-                            child: TextField(
-                              decoration: InputDecoration(
-                                labelText: 'Enter the date',
-                              ),
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.calendar_month_outlined,
-                              size: 35,
-                              color: Color.fromARGB(255, 246, 241, 241),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.close_outlined,
-                              size: 35,
-                              color: Color.fromARGB(255, 246, 241, 241),
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            width: 200,
-                            child: TextField(
-                              decoration: InputDecoration(
-                                labelText: 'Enter the end time',
-                              ),
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.watch_later_outlined,
-                              size: 35,
-                              color: Color.fromARGB(255, 246, 241, 241),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.close_outlined,
-                              size: 35,
-                              color: Color.fromARGB(255, 246, 241, 241),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.task_alt_outlined),
-                            iconSize: 54,
-                            color: Color.fromARGB(255, 246, 241, 241),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            MainContainer(),
           ],
         ),
       ),
     );
   }
+}
+
+Container MainContainer() {
+  return Container(
+    height: 550,
+    width: 340,
+    child: Column(
+      children: [
+        SizedBox(height: 20),
+        const Text(
+          'Task name:',
+          style: TextStyle(
+            color: Color.fromARGB(255, 246, 241, 241),
+            fontSize: 24,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        TaskName(),
+        TaskDescription(),
+        SizedBox(height: 60),
+        const Text(
+          'Date:',
+          style: TextStyle(
+            color: Color.fromARGB(255, 246, 241, 241),
+            fontSize: 24,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        dateTime(),
+        EndTime(),
+        Spacer(),
+        Save(),
+      ],
+    ),
+  );
+}
+
+GestureDetector Save() {
+  return GestureDetector(
+    onTap: () {},
+    child: Container(
+      width: 80,
+      height: 80,
+      alignment: Alignment.bottomRight,
+      child: Icon(
+        Icons.task_alt_outlined,
+        size: 68,
+        color: Color.fromARGB(255, 246, 241, 241),
+      ),
+    ),
+  );
+}
+
+Widget EndTime() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 15),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(
+          width: 250,
+          child: TextField(
+            decoration: InputDecoration(
+              labelText: 'Enter the endtime',
+            ),
+            style: TextStyle(
+              fontSize: 16,
+            ),
+          ),
+        ),
+        IconButton(
+          onPressed: () {},
+          icon: Icon(
+            Icons.close_outlined,
+            size: 35,
+            color: Color.fromARGB(255, 246, 241, 241),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget dateTime() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 15),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(
+          width: 250,
+          child: TextField(
+            decoration: InputDecoration(
+              labelText: 'Enter the date',
+            ),
+            style: TextStyle(
+              fontSize: 16,
+            ),
+          ),
+        ),
+        IconButton(
+          onPressed: () {},
+          icon: Icon(
+            Icons.close_outlined,
+            size: 35,
+            color: Color.fromARGB(255, 246, 241, 241),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Padding TaskDescription() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(
+          width: 250,
+          child: TextField(
+            decoration: InputDecoration(
+              labelText: 'Enter task name',
+            ),
+            style: TextStyle(
+              fontSize: 16,
+            ),
+          ),
+        ),
+        IconButton(
+          onPressed: () {},
+          icon: Icon(
+            Icons.close_outlined,
+            size: 35,
+            color: Color.fromARGB(255, 246, 241, 241),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Padding TaskName() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20),
+    child: TextField(
+      decoration: InputDecoration(
+        labelText: 'Enter task name',
+      ),
+      style: TextStyle(
+        fontSize: 16,
+      ),
+    ),
+  );
 }
