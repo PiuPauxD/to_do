@@ -13,12 +13,11 @@ class NavBar extends StatefulWidget {
 
 class _NavBarState extends State<NavBar> {
   List Screen = [
-    AddScreen(),
     HomeScreen(),
     CalendarScreen(),
   ];
 
-  int CurrentIndex = 1;
+  int CurrentIndex = 0;
 
   void onTap(int index) {
     setState(() {
@@ -46,10 +45,6 @@ class _NavBarState extends State<NavBar> {
         onTabChange: onTap,
         selectedIndex: CurrentIndex,
         tabs: [
-          GButton(
-            icon: Icons.add_outlined,
-            text: 'Add Task',
-          ),
           GButton(
             icon: Icons.task_alt_sharp,
             text: 'Your Tasks',

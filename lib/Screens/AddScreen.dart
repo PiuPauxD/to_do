@@ -1,241 +1,120 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
 import 'package:to_do/Screens/NavBar.dart';
+import 'package:to_do/data/button.dart';
 
-class AddScreen extends StatefulWidget {
-  const AddScreen({super.key});
+import '../data/AddData.dart';
 
-  @override
-  State<AddScreen> createState() => _AddScreenState();
-}
+class AddScreen extends StatelessWidget {
+  final box = Hive.box('box');
+  //text controller
+  final tName;
+  final tDescription;
 
-class _AddScreenState extends State<AddScreen> {
+  VoidCallback onSave;
+  VoidCallback onCancel;
   DateTime date = DateTime.now();
+
+  AddScreen({
+    super.key,
+    required this.tName,
+    required this.tDescription,
+    required this.onSave,
+    required this.onCancel,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 142, 200, 241),
-      body: SafeArea(
-        child: Stack(
-          alignment: AlignmentDirectional.center,
+    return AlertDialog(
+      backgroundColor: Color.fromARGB(255, 142, 200, 241),
+      content: Container(
+        height: 250,
+        child: Column(
           children: [
-            backgroundContainer(context),
-            Positioned(
-              top: 120,
-              child: MainContainer(),
+            //label text
+            const Text(
+              'New task',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w500,
+                color: Color.fromARGB(255, 246, 241, 241),
+              ),
+            ),
+            //task name
+            TextField(
+              controller: tName,
+              decoration: InputDecoration(
+                hintText: 'Task name',
+              ),
+            ),
+            SizedBox(height: 10),
+            //task description
+            Container(
+              alignment: Alignment.bottomLeft,
+              child: Expanded(
+                child: TextField(
+                  controller: tDescription,
+                  decoration: InputDecoration(
+                    hintText: 'Task description',
+                  ),
+                ),
+              ),
+            ),
+
+            SizedBox(height: 10),
+            //calendar
+            Container(
+              alignment: Alignment.bottomLeft,
+              child: Expanded(
+                child: TextButton(
+                  onPressed: () async {
+                    DateTime? newDate = await showDatePicker(
+                      context: context,
+                      initialDate: date,
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2123),
+                    );
+                    if (newDate == Null) return;
+
+                    date = newDate!;
+                  },
+                  child: Text(
+                    '${date.day} /${date.month} /${date.year}',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Color.fromARGB(255, 246, 241, 241),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                //save button
+                MyButton(
+                  icon: Icon(
+                    Icons.done_outline_outlined,
+                    color: Color.fromARGB(255, 246, 241, 241),
+                  ),
+                  onPressed: onSave,
+                ),
+                //cancel button
+                MyButton(
+                  icon: Icon(
+                    Icons.west_outlined,
+                    color: Color.fromARGB(255, 246, 241, 241),
+                  ),
+                  onPressed: onCancel,
+                ),
+              ],
             ),
           ],
         ),
       ),
     );
   }
-}
-
-Column backgroundContainer(BuildContext context) {
-  return Column(
-    children: [
-      Container(
-        width: double.infinity,
-        height: 82,
-        decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 20, 108, 148),
-        ),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const NavBar()));
-                    },
-                    child: const Icon(
-                      Icons.arrow_back_outlined,
-                      size: 42,
-                      color: const Color.fromARGB(255, 246, 241, 241),
-                    ),
-                  ),
-                  const Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                  ),
-                  const Text(
-                    'Add task',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                      color: Color.fromARGB(255, 246, 241, 241),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    ],
-  );
-}
-
-Container MainContainer() {
-  return Container(
-    height: 550,
-    width: 340,
-    child: Column(
-      children: [
-        SizedBox(height: 20),
-        const Text(
-          'Task name:',
-          style: TextStyle(
-            color: Color.fromARGB(255, 246, 241, 241),
-            fontSize: 24,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        TaskName(),
-        TaskDescription(),
-        SizedBox(height: 60),
-        const Text(
-          'Date:',
-          style: TextStyle(
-            color: Color.fromARGB(255, 246, 241, 241),
-            fontSize: 24,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        dateTime(),
-        EndTime(),
-        Spacer(),
-        Save(),
-      ],
-    ),
-  );
-}
-
-GestureDetector Save() {
-  return GestureDetector(
-    onTap: () {},
-    child: Container(
-      width: 100,
-      height: 60,
-      alignment: Alignment.center,
-      child: Icon(
-        color: Color.fromARGB(255, 246, 241, 241),
-        Icons.task_alt_outlined,
-        size: 54,
-      ),
-    ),
-  );
-}
-
-Widget EndTime() {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 15),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 250,
-          child: TextField(
-            decoration: InputDecoration(
-              labelText: 'Enter the endtime',
-            ),
-            style: TextStyle(
-              fontSize: 16,
-            ),
-          ),
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.close_outlined,
-            size: 35,
-            color: Color.fromARGB(255, 246, 241, 241),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget dateTime() {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 15),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 250,
-          child: TextField(
-            decoration: InputDecoration(
-              labelText: 'Enter the date',
-            ),
-            style: TextStyle(
-              fontSize: 16,
-            ),
-          ),
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.close_outlined,
-            size: 35,
-            color: Color.fromARGB(255, 246, 241, 241),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Padding TaskDescription() {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 20),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 250,
-          child: TextField(
-            decoration: InputDecoration(
-              labelText: 'Enter task name',
-            ),
-            style: TextStyle(
-              fontSize: 16,
-            ),
-          ),
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.close_outlined,
-            size: 35,
-            color: Color.fromARGB(255, 246, 241, 241),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Padding TaskName() {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 20),
-    child: TextField(
-      decoration: InputDecoration(
-        labelText: 'Enter task name',
-      ),
-      style: TextStyle(
-        fontSize: 16,
-      ),
-    ),
-  );
 }

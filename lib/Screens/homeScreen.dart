@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:to_do/Screens/AddScreen.dart';
+import 'package:to_do/data/AddData.dart';
 import 'package:to_do/data/To_DoTile.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -12,6 +15,10 @@ class _HomeScreenState extends State<HomeScreen> {
   String? selectedItem;
   String? selectedItemi;
 
+  //reference the hive box
+  final _box = Hive.box('box');
+  ToDoDataBase db = ToDoDataBase();
+
   DateTime date = DateTime.now();
 
   final List<String> _item = [
@@ -21,24 +28,60 @@ class _HomeScreenState extends State<HomeScreen> {
     'Year',
   ];
 
-  // list tasks
-  List ToDoList = [
-    ['make tutorial', 'hello', false],
-    ['make tutorial', 'holla', false],
-    ['make tutorial', 'holla', false],
-    ['make tutorial', 'holla', false],
-    ['make tutorial', 'holla', false],
-    ['make tutorial', 'holla', false],
-  ];
+  final _tName = TextEditingController();
+  final _tDescription = TextEditingController();
 
   // checkBox function
   void CheckBoxChanged(bool? value, int index) {
     setState(() {
-      ToDoList[index][2] = !ToDoList[index][2];
+      db.toDoList[index][2] = !db.toDoList[index][2];
     });
+    db.updateDataBase();
+  }
+
+//save new task
+  void saveNewTask() {
+    setState(() {
+      db.toDoList.add([_tName.text, _tDescription.text, false]);
+      _tName.clear();
+      _tDescription.clear();
+    });
+    Navigator.of(context).pop();
+    db.updateDataBase();
+  }
+
+  //add new task
+  void newTask() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AddScreen(
+          tName: _tName,
+          tDescription: _tDescription,
+          onSave: saveNewTask,
+          onCancel: () => Navigator.of(context).pop(),
+        );
+      },
+    );
+  }
+
+  //delete task
+  void deleteTask(int index) {
+    setState(() {
+      db.toDoList.removeAt(index);
+    });
+    db.updateDataBase();
   }
 
   @override
+  void initState() {
+    if (_box.get("TODOLIST") == null) {
+      db.initialState();
+    } else {
+      db.loadData();
+    }
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 142, 200, 241),
@@ -121,15 +164,23 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: newTask,
+        backgroundColor: Color.fromARGB(255, 25, 167, 206),
+        child: const Icon(
+          Icons.add_task_outlined,
+        ),
+      ),
       body: ListView.builder(
-        itemCount: ToDoList.length,
+        itemCount: db.toDoList.length,
         itemBuilder: (context, index) {
           return To_DoTile(
-            TaskName: ToDoList[index][0],
-            TaskDescrip: ToDoList[index][1],
+            TaskName: db.toDoList[index][0],
+            TaskDescrip: db.toDoList[index][1],
             Date: 'Date: ${date.day} / ${date.month} / ${date.year}',
-            TaskCompleted: ToDoList[index][2],
+            TaskCompleted: db.toDoList[index][2],
             onChanged: (value) => CheckBoxChanged(value, index),
+            deleteFunction: (context) => deleteTask(index),
           );
         },
       ),

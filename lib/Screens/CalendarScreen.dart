@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:to_do/Screens/AddScreen.dart';
 import 'package:to_do/Screens/NavBar.dart';
+import 'package:to_do/data/AddData.dart';
 import 'package:to_do/data/To_DoTile.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -11,25 +14,51 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
+  final _box = Hive.box('box');
+  ToDoDataBase db = ToDoDataBase();
   DateTime date = DateTime.now();
-
-  // list tasks
-  List ToDoList = [
-    ['make tutorial', 'hello', false],
-    ['make tutorial', 'holla', false],
-    ['make tutorial', 'holla', false],
-    ['make tutorial', 'holla', false],
-    ['make tutorial', 'holla', false],
-  ];
 
 // checkBox function
   void CheckBoxChanged(bool? value, int index) {
     setState(() {
-      ToDoList[index][2] = !ToDoList[index][2];
+      db.toDoList[index][2] = !db.toDoList[index][2];
     });
   }
 
+  final _tName = TextEditingController();
+  final _tDescription = TextEditingController();
+
+  void newTask() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AddScreen(
+          tName: _tName,
+          tDescription: _tDescription,
+          onCancel: () => Navigator.of(context).pop(),
+          onSave: () {},
+        );
+      },
+    );
+  }
+
+  //delete task
+  void deleteTask(int index) {
+    setState(() {
+      db.toDoList.removeAt(index);
+    });
+    db.updateDataBase();
+  }
+
   @override
+  void initState() {
+    if (_box.get("TODOLIST") == null) {
+      db.initialState();
+    } else {
+      db.loadData();
+    }
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 142, 200, 241),
@@ -40,76 +69,47 @@ class _CalendarScreenState extends State<CalendarScreen> {
             backgroundContainer(context),
             Positioned(
               top: 90,
-              child: Container(
-                height: 550,
-                width: 350,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TableCalendar(
-                      focusedDay: DateTime.now(),
-                      firstDay: DateTime.utc(2010),
-                      lastDay: DateTime.utc(2123),
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        itemCount: ToDoList.length,
-                        itemBuilder: (context, index) {
-                          return To_DoTile(
-                            TaskName: ToDoList[index][0],
-                            TaskDescrip: ToDoList[index][1],
-                            Date:
-                                'Date: ${date.day} / ${date.month} / ${date.year}',
-                            TaskCompleted: ToDoList[index][2],
-                            onChanged: (value) => CheckBoxChanged(value, index),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              child: mainContainer(),
             ),
           ],
         ),
       ),
     );
   }
-}
 
-// Container MainContainer() {
-//   return Container(
-//     height: 550,
-//     width: 350,
-//     child: Column(
-//       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//       children: [
-//         TableCalendar(
-//           focusedDay: DateTime.now(),
-//           firstDay: DateTime.utc(2010),
-//           lastDay: DateTime.utc(2123),
-//         ),
-//         Container(
-//           height: 200,
-//           child: ListView.builder(
-//             scrollDirection: Axis.vertical,
-//             itemCount: ToDoList.length,
-//             itemBuilder: (context, index) {
-//               return To_DoTile(
-//                 TaskName: ToDoList[index][0],
-//                 TaskDescrip: ToDoList[index][1],
-//                 Date: 'Date: ${date.day} / ${date.month} / ${date.year}',
-//                 TaskCompleted: ToDoList[index][2],
-//                 onChanged: (value) => CheckBoxChanged(value, index),
-//               );
-//             },
-//           ),
-//         ),
-//       ],
-//     ),
-//   );
-// }
+  Container mainContainer() {
+    return Container(
+      height: 550,
+      width: 350,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TableCalendar(
+            focusedDay: DateTime.now(),
+            firstDay: DateTime.utc(2010),
+            lastDay: DateTime.utc(2123),
+          ),
+          Expanded(
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: db.toDoList.length,
+              itemBuilder: (context, index) {
+                return To_DoTile(
+                  TaskName: db.toDoList[index][0],
+                  TaskDescrip: db.toDoList[index][1],
+                  Date: 'Date: ${date.day} / ${date.month} / ${date.year}',
+                  TaskCompleted: db.toDoList[index][2],
+                  onChanged: (value) => CheckBoxChanged(value, index),
+                  deleteFunction: (context) => deleteTask(index),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 Column backgroundContainer(BuildContext context) {
   return Column(
