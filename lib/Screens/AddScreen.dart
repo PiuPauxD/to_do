@@ -6,15 +6,13 @@ import 'package:to_do/data/button.dart';
 
 import '../data/AddData.dart';
 
-class AddScreen extends StatelessWidget {
-  final box = Hive.box('box');
-  //text controller
+class AddScreen extends StatefulWidget {
   final tName;
   final tDescription;
+  DateTime dateTime = DateTime.now();
 
   VoidCallback onSave;
   VoidCallback onCancel;
-  DateTime date = DateTime.now();
 
   AddScreen({
     super.key,
@@ -22,7 +20,15 @@ class AddScreen extends StatelessWidget {
     required this.tDescription,
     required this.onSave,
     required this.onCancel,
+    required this.dateTime,
   });
+
+  @override
+  State<AddScreen> createState() => _AddScreenState();
+}
+
+class _AddScreenState extends State<AddScreen> {
+  final box = Hive.box('box');
 
   @override
   Widget build(BuildContext context) {
@@ -43,44 +49,37 @@ class AddScreen extends StatelessWidget {
             ),
             //task name
             TextField(
-              controller: tName,
+              controller: widget.tName,
               decoration: InputDecoration(
                 hintText: 'Task name',
               ),
             ),
             SizedBox(height: 10),
             //task description
-            Container(
-              alignment: Alignment.bottomLeft,
-              child: Expanded(
-                child: TextField(
-                  controller: tDescription,
-                  decoration: InputDecoration(
-                    hintText: 'Task description',
-                  ),
-                ),
+            TextField(
+              controller: widget.tDescription,
+              decoration: InputDecoration(
+                hintText: 'Task description',
               ),
             ),
-
             SizedBox(height: 10),
             //calendar
-            Container(
-              alignment: Alignment.bottomLeft,
-              child: Expanded(
+            Expanded(
+              child: Container(
+                alignment: Alignment.bottomLeft,
                 child: TextButton(
                   onPressed: () async {
                     DateTime? newDate = await showDatePicker(
-                      context: context,
-                      initialDate: date,
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime(2123),
-                    );
-                    if (newDate == Null) return;
-
-                    date = newDate!;
+                        context: context,
+                        initialDate: widget.dateTime,
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2123));
+                    setState(() {
+                      widget.dateTime = newDate!;
+                    });
                   },
                   child: Text(
-                    '${date.day} /${date.month} /${date.year}',
+                    '${widget.dateTime.day} /${widget.dateTime.month} /${widget.dateTime.year}',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
@@ -90,7 +89,7 @@ class AddScreen extends StatelessWidget {
                 ),
               ),
             ),
-
+            SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -100,7 +99,7 @@ class AddScreen extends StatelessWidget {
                     Icons.done_outline_outlined,
                     color: Color.fromARGB(255, 246, 241, 241),
                   ),
-                  onPressed: onSave,
+                  onPressed: widget.onSave,
                 ),
                 //cancel button
                 MyButton(
@@ -108,7 +107,7 @@ class AddScreen extends StatelessWidget {
                     Icons.west_outlined,
                     color: Color.fromARGB(255, 246, 241, 241),
                   ),
-                  onPressed: onCancel,
+                  onPressed: widget.onCancel,
                 ),
               ],
             ),
