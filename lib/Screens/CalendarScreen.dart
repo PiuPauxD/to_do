@@ -16,7 +16,6 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen> {
   final _box = Hive.box('box');
   ToDoDataBase db = ToDoDataBase();
-  DateTime date = DateTime.now();
 
 // checkBox function
   void CheckBoxChanged(bool? value, int index) {
@@ -27,6 +26,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   final _tName = TextEditingController();
   final _tDescription = TextEditingController();
+  final DateTime _dateTime = DateTime.now();
 
   void newTask() {
     showDialog(
@@ -35,6 +35,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         return AddScreen(
           tName: _tName,
           tDescription: _tDescription,
+          dateTime: _dateTime,
           onCancel: () => Navigator.of(context).pop(),
           onSave: () {},
         );
@@ -97,7 +98,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 return To_DoTile(
                   TaskName: db.toDoList[index][0],
                   TaskDescrip: db.toDoList[index][1],
-                  Date: 'Date: ${date.day} / ${date.month} / ${date.year}',
+                  Date:
+                      '${_dateTime.day} / ${_dateTime.month} / ${_dateTime.year}',
                   TaskCompleted: db.toDoList[index][2],
                   onChanged: (value) => CheckBoxChanged(value, index),
                   deleteFunction: (context) => deleteTask(index),

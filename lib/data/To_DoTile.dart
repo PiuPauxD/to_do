@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:to_do/Screens/AddScreen.dart';
 
 class To_DoTile extends StatelessWidget {
   final String TaskName;
@@ -21,7 +22,7 @@ class To_DoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTime date = DateTime.now();
+    DateTime? date = DateTime.now();
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Container(
@@ -84,7 +85,7 @@ class To_DoTile extends StatelessWidget {
                     ),
                     //task date
                     Text(
-                      '${date.day} / ${date.month} / ${date.year}',
+                      '${date.day} /${date.month} /${date.year}',
                       style: TextStyle(
                         decoration: TaskCompleted
                             ? TextDecoration.lineThrough
