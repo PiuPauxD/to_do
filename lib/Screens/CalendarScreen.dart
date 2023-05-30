@@ -18,7 +18,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   ToDoDataBase db = ToDoDataBase();
 
 // checkBox function
-  void CheckBoxChanged(bool? value, int index) {
+  void checkBoxChanged(bool? value, int index) {
     setState(() {
       db.toDoList[index][2] = !db.toDoList[index][2];
     });
@@ -53,6 +53,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   void initState() {
+    super.initState();
     if (_box.get("TODOLIST") == null) {
       db.initialState();
     } else {
@@ -60,6 +61,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 142, 200, 241),
@@ -96,12 +98,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
               itemCount: db.toDoList.length,
               itemBuilder: (context, index) {
                 return To_DoTile(
-                  TaskName: db.toDoList[index][0],
-                  TaskDescrip: db.toDoList[index][1],
-                  Date:
+                  taskName: db.toDoList[index][0],
+                  taskDescrip: db.toDoList[index][1],
+                  date:
                       '${_dateTime.day} / ${_dateTime.month} / ${_dateTime.year}',
-                  TaskCompleted: db.toDoList[index][2],
-                  onChanged: (value) => CheckBoxChanged(value, index),
+                  taskCompleted: db.toDoList[index][2],
+                  onChanged: (value) => checkBoxChanged(value, index),
                   deleteFunction: (context) => deleteTask(index),
                 );
               },
@@ -140,11 +142,11 @@ Column backgroundContainer(BuildContext context) {
                     child: const Icon(
                       Icons.arrow_back_outlined,
                       size: 42,
-                      color: const Color.fromARGB(255, 246, 241, 241),
+                      color: Color.fromARGB(255, 246, 241, 241),
                     ),
                   ),
                   const Padding(
-                    padding: const EdgeInsets.only(left: 10),
+                    padding: EdgeInsets.only(left: 10),
                   ),
                   const Text(
                     'Add task',

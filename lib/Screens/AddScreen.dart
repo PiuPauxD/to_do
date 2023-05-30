@@ -33,7 +33,7 @@ class _AddScreenState extends State<AddScreen> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Color.fromARGB(255, 142, 200, 241),
+      backgroundColor: const Color.fromARGB(255, 142, 200, 241),
       content: Container(
         height: 250,
         child: Column(
@@ -50,19 +50,19 @@ class _AddScreenState extends State<AddScreen> {
             //task name
             TextField(
               controller: widget.tName,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Task name',
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             //task description
             TextField(
               controller: widget.tDescription,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Task description',
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             //calendar
             Expanded(
               child: Container(
@@ -80,7 +80,7 @@ class _AddScreenState extends State<AddScreen> {
                   },
                   child: Text(
                     '${widget.dateTime.day} /${widget.dateTime.month} /${widget.dateTime.year}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
                       color: Color.fromARGB(255, 246, 241, 241),
@@ -89,13 +89,13 @@ class _AddScreenState extends State<AddScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 //save button
                 MyButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.done_outline_outlined,
                     color: Color.fromARGB(255, 246, 241, 241),
                   ),
@@ -103,7 +103,7 @@ class _AddScreenState extends State<AddScreen> {
                 ),
                 //cancel button
                 MyButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.west_outlined,
                     color: Color.fromARGB(255, 246, 241, 241),
                   ),

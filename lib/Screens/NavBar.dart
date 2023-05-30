@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:to_do/Screens/AddScreen.dart';
 import 'package:to_do/Screens/CalendarScreen.dart';
 import 'package:to_do/Screens/homeScreen.dart';
 
@@ -12,39 +11,39 @@ class NavBar extends StatefulWidget {
 }
 
 class _NavBarState extends State<NavBar> {
-  List Screen = [
-    HomeScreen(),
-    CalendarScreen(),
+  List screen = [
+    const HomeScreen(),
+    const CalendarScreen(),
   ];
 
-  int CurrentIndex = 0;
+  int currentIndex = 0;
 
   void onTap(int index) {
     setState(() {
-      CurrentIndex = index;
+      currentIndex = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Screen[CurrentIndex],
+      body: screen[currentIndex],
       bottomNavigationBar: GNav(
         tabBorderRadius: 20,
-        rippleColor: Color.fromARGB(255, 25, 167, 206),
-        hoverColor: Color.fromARGB(255, 246, 241, 241),
+        rippleColor: const Color.fromARGB(255, 25, 167, 206),
+        hoverColor: const Color.fromARGB(255, 246, 241, 241),
         haptic: true,
         curve: Curves.easeInOutCirc,
-        duration: Duration(microseconds: 800),
+        duration: const Duration(microseconds: 800),
         gap: 10,
-        activeColor: Color.fromARGB(255, 246, 241, 241),
-        color: Color.fromARGB(255, 142, 200, 241),
-        backgroundColor: Color.fromARGB(255, 20, 108, 148),
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
+        activeColor: const Color.fromARGB(255, 246, 241, 241),
+        color: const Color.fromARGB(255, 142, 200, 241),
+        backgroundColor: const Color.fromARGB(255, 20, 108, 148),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
         iconSize: 20,
         onTabChange: onTap,
-        selectedIndex: CurrentIndex,
-        tabs: [
+        selectedIndex: currentIndex,
+        tabs: const [
           GButton(
             icon: Icons.task_alt_sharp,
             text: 'Your Tasks',

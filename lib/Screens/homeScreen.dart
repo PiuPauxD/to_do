@@ -19,11 +19,16 @@ class _HomeScreenState extends State<HomeScreen> {
   final _box = Hive.box('box');
   ToDoDataBase db = ToDoDataBase();
 
-  final List<String> _item = [
+  final List<String> item = [
     'Day',
     'Week',
     'Month',
     'Year',
+  ];
+
+  final List<String> sortItem = [
+    'New tasks',
+    'Old tasks',
   ];
 
   final _tName = TextEditingController();
@@ -32,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final _dateTime = DateTime.now();
 
   // checkBox function
-  void CheckBoxChanged(bool? value, int index) {
+  void checkBoxChanged(bool? value, int index) {
     setState(() {
       db.toDoList[index][2] = !db.toDoList[index][2];
     });
@@ -76,6 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    super.initState();
     if (_box.get("TODOLIST") == null) {
       db.initialState();
     } else {
@@ -83,11 +89,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 142, 200, 241),
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 20, 108, 148),
+        backgroundColor: const Color.fromARGB(255, 20, 108, 148),
         toolbarHeight: 80,
         elevation: 0,
         leading: const Icon(
@@ -95,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
           color: Color.fromARGB(255, 246, 241, 241),
           size: 42,
         ),
-        title: Text(
+        title: const Text(
           'To-Do',
           style: TextStyle(
             color: Color.fromARGB(255, 246, 241, 241),
@@ -103,10 +110,56 @@ class _HomeScreenState extends State<HomeScreen> {
             fontWeight: FontWeight.w600,
           ),
         ),
+        actions: [
+          Center(
+            child: DropdownButton(
+              value: selectedItem,
+              items: sortItem
+                  .map((e) => DropdownMenuItem(
+                        value: e,
+                        child: Text(
+                          e,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Color.fromARGB(255, 246, 241, 241),
+                          ),
+                        ),
+                      ))
+                  .toList(),
+              selectedItemBuilder: (BuildContext context) => sortItem
+                  .map(
+                    (e) => Center(
+                      child: Text(
+                        e,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                          color: Color.fromARGB(255, 246, 241, 241),
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
+              icon: const Icon(
+                Icons.import_export_outlined,
+                color: Color.fromARGB(255, 246, 241, 241),
+                size: 42,
+              ),
+              underline: Container(),
+              dropdownColor: const Color.fromARGB(255, 20, 108, 148),
+              onChanged: (String? value) {
+                setState(() {
+                  selectedItem = value!;
+                });
+              },
+            ),
+          )
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: newTask,
-        backgroundColor: Color.fromARGB(255, 25, 167, 206),
+        backgroundColor: const Color.fromARGB(255, 25, 167, 206),
         child: const Icon(
           Icons.add_task_outlined,
         ),
@@ -115,11 +168,11 @@ class _HomeScreenState extends State<HomeScreen> {
         itemCount: db.toDoList.length,
         itemBuilder: (context, index) {
           return To_DoTile(
-            TaskName: db.toDoList[index][0],
-            TaskDescrip: db.toDoList[index][1],
-            Date: '${_dateTime.day} / ${_dateTime.month} / ${_dateTime.year}',
-            TaskCompleted: db.toDoList[index][2],
-            onChanged: (value) => CheckBoxChanged(value, index),
+            taskName: db.toDoList[index][0],
+            taskDescrip: db.toDoList[index][1],
+            date: '${_dateTime.day} / ${_dateTime.month} / ${_dateTime.year}',
+            taskCompleted: db.toDoList[index][2],
+            onChanged: (value) => checkBoxChanged(value, index),
             deleteFunction: (context) => deleteTask(index),
           );
         },
