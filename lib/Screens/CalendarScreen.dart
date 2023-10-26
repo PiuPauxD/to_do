@@ -101,7 +101,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   taskName: db.toDoList[index][0],
                   taskDescrip: db.toDoList[index][1],
                   date:
-                      '${_dateTime.day} / ${_dateTime.month} / ${_dateTime.year}',
+                      '${db.toDoList[index][3].day} / ${db.toDoList[index][3].month} / ${db.toDoList[index][3].year}',
                   taskCompleted: db.toDoList[index][2],
                   onChanged: (value) => checkBoxChanged(value, index),
                   deleteFunction: (context) => deleteTask(index),

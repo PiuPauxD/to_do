@@ -8,10 +8,10 @@ void main() async {
   await Hive.initFlutter();
 
   //open a box
-  var box = await Hive.openBox('box');
+  await Hive.openBox('box');
 
   runApp(
-    MaterialApp(
+    const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: NavBar(),
     ),
