@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
 //save new task
   void saveNewTask() {
     setState(() {
-      db.toDoList.add([_tName.text, _tDescription.text, false]);
+      db.toDoList.add([_tName.text, _tDescription.text, false, _dateTime]);
       _tName.clear();
       _tDescription.clear();
     });

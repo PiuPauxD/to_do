@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'package:to_do/Screens/NavBar.dart';
 import 'package:to_do/data/button.dart';
 
-import '../data/AddData.dart';
 
 class AddScreen extends StatefulWidget {
   final tName;
